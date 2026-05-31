@@ -8,37 +8,51 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 2f;
-    private Rigidbody2D rb;
-    private Vector2 moveInput;
-    private Animator animator;
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed = 5f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("References")]
+    [SerializeField] private Transform visuals;
+
+    private Rigidbody2D rb;
+    private Vector2 movement;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
-    }
+        movement = Vector2.zero;
 
-    public void Move(InputAction.CallbackContext context)
-    {
-        animator.SetBool("isWalking",true);
+        if (Keyboard.current.wKey.isPressed)
+            movement.y = 1;
 
-        if (context.canceled)
+        if (Keyboard.current.sKey.isPressed)
+            movement.y = -1;
+
+        if (Keyboard.current.aKey.isPressed)
+            movement.x = -1;
+
+        if (Keyboard.current.dKey.isPressed)
+            movement.x = 1;
+
+        movement.Normalize();
+
+        // Face left/right
+        if (movement.x < 0)
         {
-            animator.SetBool("isWalking",false);
-            animator.SetFloat("LastInputX",moveInput.x);
-            animator.SetFloat("LastInputY",moveInput.y);
+            visuals.localScale = new Vector3(1f, 1f, 1f);
         }
+        else if (movement.x > 0)
+        {
+            visuals.localScale = new Vector3(-1f, 1f, 1f);
+        }
+    }
 
-        moveInput = context.ReadValue<Vector2>();
-        animator.SetFloat("InputX",moveInput.x);
-        animator.SetFloat("InputY",moveInput.y);
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = movement * moveSpeed;
     }
 }
