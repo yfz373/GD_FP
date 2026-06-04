@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - SolidObjects
   - 
   - 
   - 
@@ -41,23 +41,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Ground
+  - name: Background
     uniqueID: 4290828643
     locked: 0
-  - name: Walkinfront
+  - name: Foreground
     uniqueID: 2984701701
-    locked: 0
-  - name: Collision
-    uniqueID: 775588489
     locked: 0
   - name: Player
     uniqueID: 111029713
-    locked: 0
-  - name: Walkbehind
-    uniqueID: 4094201869
-    locked: 0
-  - name: Decor
-    uniqueID: 998086003
     locked: 0
   m_RenderingLayers:
   - Default
