@@ -8,10 +8,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
-
-    [Header("References")]
     [SerializeField] private Transform visuals;
 
     private Rigidbody2D rb;
