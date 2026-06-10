@@ -47,7 +47,10 @@ TagManager:
   - name: Foreground
     uniqueID: 2984701701
     locked: 0
-  - name: Player
+  - name: Game Object
+    uniqueID: 1360482211
+    locked: 0
+  - name: Character
     uniqueID: 111029713
     locked: 0
   m_RenderingLayers:
