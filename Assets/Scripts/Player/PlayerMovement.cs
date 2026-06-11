@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Transform visuals;
 
+    public bool isKnockedBack = false;
     private Rigidbody2D rb;
     private Vector2 movement;
 
@@ -40,16 +41,19 @@ public class PlayerMovement : MonoBehaviour
         // Face left/right
         if (movement.x < 0)
         {
-            visuals.localScale = new Vector3(1f, 1f, 1f);
+            visuals.localScale = new Vector3(-1f, 1f, 1f);
         }
         else if (movement.x > 0)
         {
-            visuals.localScale = new Vector3(-1f, 1f, 1f);
+            visuals.localScale = new Vector3(1f, 1f, 1f);
         }
     }
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = movement * moveSpeed;
+        if (!isKnockedBack)
+        {
+            rb.linearVelocity = movement * moveSpeed;
+        }
     }
 }
