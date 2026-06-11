@@ -14,6 +14,8 @@ public class EnemyAI : MonoBehaviour
 
     public int health = 100;
 
+    private bool hasHitPlayer = false;
+
     public PlayerUI playerUI;
 
     void Start()
@@ -35,6 +37,9 @@ public class EnemyAI : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (hasHitPlayer)
+            return;
+
         if (collision.gameObject.CompareTag("Player"))
         {
             Rigidbody2D playerRb =
@@ -55,7 +60,6 @@ public class EnemyAI : MonoBehaviour
     IEnumerator Knockback(Rigidbody2D playerRb, PlayerMovement playerMovement)
     {
         isKnockedBack = true;
-        playerMovement.isKnockedBack = true;
 
         Vector2 direction =
             (transform.position - player.position).normalized;
@@ -67,13 +71,10 @@ public class EnemyAI : MonoBehaviour
         rb.AddForce(direction * knockbackForce,
                     ForceMode2D.Impulse);
 
-        // Player pushed away
-        playerRb.AddForce(-direction * knockbackForce,
-                          ForceMode2D.Impulse);
-
         yield return new WaitForSeconds(knockbackDuration);
 
         isKnockedBack = false;
-        playerMovement.isKnockedBack = false;
+
+        StartCoroutine(playerMovement.Knockback(-direction, knockbackForce, knockbackDuration));
     }
 }

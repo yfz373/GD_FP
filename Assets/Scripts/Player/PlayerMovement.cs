@@ -41,11 +41,11 @@ public class PlayerMovement : MonoBehaviour
         // Face left/right
         if (movement.x < 0)
         {
-            visuals.localScale = new Vector3(-1f, 1f, 1f);
+            gameObject.transform.localScale = new Vector3(-1f, 1f, 1f);
         }
         else if (movement.x > 0)
         {
-            visuals.localScale = new Vector3(1f, 1f, 1f);
+            gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
         }
     }
 
@@ -55,5 +55,22 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = movement * moveSpeed;
         }
+
+        if (isKnockedBack)
+            return;
+    }
+
+    public IEnumerator Knockback(Vector2 direction, float force, float duration)
+    {
+        isKnockedBack = true;
+
+        rb.linearVelocity = Vector2.zero;
+
+        rb.AddForce(direction * force,
+                    ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(duration);
+
+        isKnockedBack = false;
     }
 }

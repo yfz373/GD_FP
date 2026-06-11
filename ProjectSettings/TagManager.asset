@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - SolidObjects
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -52,6 +52,9 @@ TagManager:
     locked: 0
   - name: Character
     uniqueID: 111029713
+    locked: 0
+  - name: Items
+    uniqueID: 122659953
     locked: 0
   m_RenderingLayers:
   - Default
