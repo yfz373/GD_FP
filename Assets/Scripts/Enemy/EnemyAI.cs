@@ -56,10 +56,6 @@ public class EnemyAI : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Prevent repeated damage while touching the player
-        if (hasHitPlayer)
-            return;
-
         // Check if the object touched is the player
         if (collision.gameObject.CompareTag("Player"))
         {
