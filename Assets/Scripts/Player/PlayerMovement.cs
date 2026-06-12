@@ -1,58 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField] private float moveSpeed = 5f;
-
-    [Header("References")]
-    [SerializeField] private Transform visuals;
-
+    [SerializeField] private float moveSpeed = 5f;    
     private Rigidbody2D rb;
-    private Vector2 movement;
+    private Vector2 moveInput;
+    private Animator animator;
 
-    private void Awake()
+    void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
     }
 
-    private void Update()
+    
+    void FixedUpdate()
     {
-        movement = Vector2.zero;
-
-        if (Keyboard.current.wKey.isPressed)
-            movement.y = 1;
-
-        if (Keyboard.current.sKey.isPressed)
-            movement.y = -1;
-
-        if (Keyboard.current.aKey.isPressed)
-            movement.x = -1;
-
-        if (Keyboard.current.dKey.isPressed)
-            movement.x = 1;
-
-        movement.Normalize();
-
-        // Face left/right
-        if (movement.x < 0)
-        {
-            visuals.localScale = new Vector3(1f, 1f, 1f);
-        }
-        else if (movement.x > 0)
-        {
-            visuals.localScale = new Vector3(-1f, 1f, 1f);
-        }
+        rb.linearVelocity = moveInput * moveSpeed;
     }
 
-    private void FixedUpdate()
+    public void Move(InputAction.CallbackContext context)
     {
-        rb.linearVelocity = movement * moveSpeed;
+        animator.SetBool("isWalking", true);
+
+        if(context.canceled)
+        {
+            animator.SetBool("isWalking", false);
+            animator.SetFloat("LastInputX", moveInput.x);
+            animator.SetFloat("LastInputY", moveInput.y);
+        }
+
+        moveInput = context.ReadValue<Vector2>();
+        animator.SetFloat("InputX", moveInput.x);
+        animator.SetFloat("InputY", moveInput.y);
     }
 }
